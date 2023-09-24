@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "bootstrap-icons@1.11.1",
+      "destination": "wwwroot/bootstrap-icons/",
+      "files": [
+        "font/fonts/bootstrap-icons.woff",
+        "font/fonts/bootstrap-icons.woff2",
+        "font/bootstrap-icons.json",
+        "font/bootstrap-icons.min.css"
+      ]
+    },
+    {
+      "library": "bootstrap-datepicker@1.10.0",
+      "destination": "wwwroot/bootstrap-datepicker/"
+    },
+    {
+      "library": "bootbox.js@6.0.0",
+      "destination": "wwwroot/bootbox.js/",
+      "files": [
+        "bootbox.min.js"
+      ]
+    },
+    {
+      "library": "animate.css@4.1.1",
+      "destination": "wwwroot/animate.css/",
+      "files": [
+        "animate.min.css"
+      ]
+    }
+  ]
+}

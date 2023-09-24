@@ -1,11 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using Movies_WebApp.Models;
+using System.Collections.Generic;
 
 namespace Movies_WebApp.ViewModels
 {
     public class MovieViewModel
     {
-        [Required, StringLength(255)]
+        public int Id { get; set; }
+        [Required]
+        [StringLength(255)]
         [DataType(DataType.Text)]
         public string Title { get; set; }
 
@@ -16,7 +20,8 @@ namespace Movies_WebApp.ViewModels
         [DataType(DataType.Date)]
         public int Year { get; set; }
 
-        [Required, Range(1, 10)]
+        [Required]
+        [Range(0, 10)]
         public double Rate { get; set; }
 
         [StringLength(100)]
@@ -34,6 +39,10 @@ namespace Movies_WebApp.ViewModels
 
         [DisplayName("Genre")]
         public byte GenreId { get; set; }
+
+        public IEnumerable<Genre> Genres { get; set; }
+        public List<string> Countries { get; set; }
+        public Dictionary<string, List<string>> CountryToLanguages { get; set; }
 
     }
 }

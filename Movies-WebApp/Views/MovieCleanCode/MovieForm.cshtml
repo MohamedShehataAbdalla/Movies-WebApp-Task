@@ -1,0 +1,227 @@
+﻿@model MovieViewModel
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<h3><i class="bi bi-cloud-plus"></i> @(Model.Id > 0 ? "Edit" : "Create New") Movie</h3>
+<hr />
+<section class="movies create-form">
+    <div class="row justify-content-between">
+        <div class="col-md-6">
+            <form asp-action="@(Model.Id > 0 ? "Edit" : "Create")" class="" method="POST" enctype="multipart/form-data">
+                @Html.AntiForgeryToken() 
+                @Html.HiddenFor(item => item.Id)
+                <div class="form-group mb-3">
+                    <label class="text-muted" asp-for="Title"></label>
+                    <input type="text" class="form-control" asp-for="Title" maxlength="255"/>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-muted" asp-for="GenreId"></label>
+                    <select class="form-select form-control" asp-for="GenreId" asp-items="@(new SelectList(Model.Genres, "Id", "Name"))">
+                        <option value="">-- Select Genre --</option>
+                    </select>
+                    <span asp-validation-for="GenreId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="text-muted" asp-for="Storyline"></label>
+                    <textarea class="form-control" asp-for="Storyline" rows="4" maxlength="2500"></textarea>
+                    <span asp-validation-for="Storyline" class="text-danger"></span>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="text-muted" asp-for="Year"></label>
+                            <input type="number" id="Year" class="form-control" asp-for="Year" value="@(Model.Year > 0 ? Model.Year : string.Empty )" />
+                            <span asp-validation-for="Year" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group text-center">
+                            <label class="text-muted" asp-for="Rate"></label>
+                            <div class="range-container">
+                                <input type="range" class="custom-range" id="customRange" asp-for="Rate" min="0" max="10" step="0.1" value="@(Model.Rate > 0 ? Model.Rate : 5 )">
+                                <span class="range-value" id="rangeValue">@(Model.Rate > 0 ? Model.Rate : 5)</span>
+                            </div>
+                            <span asp-validation-for="Rate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="text-muted" asp-for="Country"></label>
+                            <select id="Country" asp-for="Country" class="form-control">
+                                <option value="">-- Select Country --</option>
+                                @foreach (var country in Model.Countries)
+                                {
+                                    <option value="@country">@country</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Country" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="text-muted" asp-for="Language"></label>
+                            <select id="Languages" asp-for="Language" class="form-control" >
+                            </select>
+                            <span asp-validation-for="Language" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group  mb-3">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" asp-for="Poster" accept=".jpg, .jpeg, .png, .webp, .tiff, .tif, .bmp" />
+                        <label class="custom-file-label" asp-for="Poster"></label>
+                    </div>
+                    <span asp-validation-for="Poster" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Url" class="form-label"></label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon3">https://www</span>
+                        <input type="text" class="form-control" asp-for="Url">
+                        <button class="btn btn-outline-secondary">Go</button>
+                    </div>
+                    <span asp-validation-for="Url" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-5 mt-5">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                </div>
+
+                <div class="form-group mb-5 mt-5">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-check2"></i> Save</button>
+                    <a class="btn btn-outline-secondary" asp-action="Index"><i class="bi bi-x"></i> Close</a>
+                </div>
+
+                
+            </form>
+            
+        </div>
+        <div class="col-md-6 text-center ">
+            <div id="poster-container" class="@(Model.Id > 0 ? string.Empty : "d-none")">
+                <img src="@(Model.Id > 0 ? $"data:image/*;base64,{Convert.ToBase64String(Model.Poster)}" :  string.Empty )" alt="Poster" class="img-thumbnail" style="max-height:500px; height:500px;" />
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            $('#Poster').on('change', function () {
+                var selectedFile = $(this).val().split('\\').pop();
+                $(this).siblings('label').text(selectedFile);
+
+                var posterContainer = $('#poster-container');
+                var image = window.URL.createObjectURL(this.files[0]);
+
+                posterContainer.removeClass('d-none');
+                posterContainer.find('img').attr('src', image);
+            });
+
+            $('#Year').datepicker({
+                format: 'yyyy',
+                viewMode: 'years',
+                minViewMode: 'years',
+                autoclose: true,
+                startDate: new Date('1895-12-28'),
+                endDate: new Date()
+            });
+        });
+    </script>
+    <script>
+        var range = document.getElementById("customRange");
+        var rangeValue = document.getElementById("rangeValue");
+
+        range.addEventListener("input", function () {
+            var value = range.value;
+            rangeValue.textContent = value;
+
+            // Calculate the left position based on the range value
+            var leftPosition = (value / range.max) * (range.clientWidth - 30); // 30 is half of thumb width
+            rangeValue.style.left = leftPosition + "px";
+
+            // Color the range track based on the value
+            var offset = (value / range.max) * 100;
+            rangeValue.style.transform = `translateX(-50%) translateX(${offset}%)`;
+            range.style.setProperty('--value', value);
+
+        });
+    </script>
+    <script>
+        
+
+        $(document).ready(function () {
+
+            var countryData = @Html.Raw(Json.Serialize(Model.CountryToLanguages));
+
+            // Get references to the country and languages dropdowns
+            var countryDropdown = document.getElementById("Country");
+            var languageDropdown = document.getElementById("Languages");
+            
+
+            // Function to update the languages dropdown based on the selected country
+            function updateLanguagesDropdown() {
+                var selectedCountry = countryDropdown.value;
+                var languages = countryData[selectedCountry] || [];
+                
+                // Clear existing options
+                languageDropdown.innerHTML = '';
+                //Enable the language dropdown
+                if (languages.length > 0) {
+                    languageDropdown.disabled = false;
+
+                //     // Add a default option
+                    var defaultOption = document.createElement("option");
+                    defaultOption.value = '';
+                    defaultOption.text = '-- Select Language --';
+                    languageDropdown.appendChild(defaultOption);
+                }
+                else {
+                    languageDropdown.disabled = true;
+                }
+
+                var isEditStat = @(Model.Id > 0 ? 1 : 0);
+
+                // Add new options
+                for (var i = 0; i < languages.length; i++) {
+                    var option = document.createElement("option");
+                    option.value = languages[i];
+                    option.text = languages[i];
+                    if (isEditStat == 1)
+                    {
+                        var selectedLanguage = "@Model.Language";
+                        if (selectedLanguage == languages[i])
+                        {
+                            option.selected = true;
+                        }
+                    }
+                    languageDropdown.appendChild(option);
+                }
+                
+            }
+
+
+            // Attach an event listener to the country dropdown to update languages on change
+            countryDropdown.addEventListener("change", updateLanguagesDropdown);
+
+            // Initial update when the page loads (if a country is already selected)
+            updateLanguagesDropdown();
+
+
+            
+        });
+    </script>
+}

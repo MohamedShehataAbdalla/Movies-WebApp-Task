@@ -16,7 +16,7 @@ namespace Movies_WebApp.Models
 
         public int Year { get; set; }
 
-        [Required, Range(1,10)]
+        [Required, Range(0,10)]
         public double Rate { get; set; }
 
         [MaxLength(100)]

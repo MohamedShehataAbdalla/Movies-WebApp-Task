@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NToastNotify;
+
 
 namespace Movies_WebApp
 {
@@ -29,7 +31,14 @@ namespace Movies_WebApp
             option.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddControllersWithViews();
+
+            services.AddControllersWithViews().AddNToastNotifyToastr(new ToastrOptions()
+            {
+                ProgressBar = true,
+                PositionClass = ToastPositions.TopRight,
+                PreventDuplicates = true,
+                CloseButton = true
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

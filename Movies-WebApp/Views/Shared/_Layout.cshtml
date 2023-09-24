@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Movies_WebApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+
+    <link href="~/lib/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker.css.map" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css.map" rel="stylesheet" />
+    <link href="~/animate.css/animate.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -22,7 +33,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Movie" asp-action="Index">Movies</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="MovieCleanCode" asp-action="Index">Movies</a>
                         </li>
                     </ul>
                 </div>
@@ -42,7 +53,11 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap-icons/font/bootstrap-icons.json"></script>
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/bootbox.js/bootbox.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("NToastNotify")
 </body>
 </html>
